@@ -2,23 +2,15 @@
   "version": 2,
   "builds": [
     {
-      "src": "*.js",
-      "use": "@vercel/node",
-      "config": { 
-        "includeFiles": ["Database.json", "config.json"] 
-      }
+      "src": "Funcs/*.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
-    { "src": "/restock-time", "dest": "/GetRestockTime.js" },
-    { "src": "/stock", "dest": "/GetStock.js" },
-    { "src": "/item-info", "dest": "/GrabItemInfo.js" },
-    { "src": "/weather", "dest": "/GrabWeather.js" },
-    { "src": "/server", "dest": "/server.js" },  
-    { 
-      "src": "/(.*)", 
-      "status": 404,
-      "dest": "README.md"  
-    }
-  ]
+    { "src": "/restock-time", "dest": "/Funcs/GetRestockTime.js" },
+    { "src": "/stock", "dest": "/Funcs/GetStock.js" },
+    { "src": "/item-info", "dest": "/Funcs/GrabItemInfo.js" },
+    { "src": "/weather", "dest": "/Funcs/GrabWeather.js" }
+  ],
+  "includeFiles": ["Funcs/Database.json"]
 }
