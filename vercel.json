@@ -2,6 +2,10 @@
   "version": 2,
   "builds": [
     {
+      "src": "*.js",
+      "use": "@vercel/node"
+    },
+    {
       "src": "Funcs/*.js",
       "use": "@vercel/node"
     }
@@ -10,7 +14,11 @@
     { "src": "/restock-time", "dest": "/Funcs/GetRestockTime.js" },
     { "src": "/stock", "dest": "/Funcs/GetStock.js" },
     { "src": "/item-info", "dest": "/Funcs/GrabItemInfo.js" },
-    { "src": "/weather", "dest": "/Funcs/GrabWeather.js" }
+    { "src": "/weather", "dest": "/Funcs/GrabWeather.js" },
+    { "src": "/server", "dest": "/server.js" } // Only if you actually need this
   ],
-  "includeFiles": ["Funcs/Database.json", "config.json"]
+  "includeFiles": [
+    "Funcs/Database.json",
+    "config.json"
+  ]
 }
