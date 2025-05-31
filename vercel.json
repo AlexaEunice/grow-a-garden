@@ -15,7 +15,7 @@
     { "src": "/stock", "dest": "/Funcs/GetStock.js" },
     { "src": "/item-info", "dest": "/Funcs/GrabItemInfo.js" },
     { "src": "/weather", "dest": "/Funcs/GrabWeather.js" },
-    { "src": "/server", "dest": "/server.js" } // Only if you actually need this
+    { "src": "/server", "dest": "/server.js" } 
   ],
   "includeFiles": [
     "Funcs/Database.json",
