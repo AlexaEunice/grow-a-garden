@@ -1,5 +1,9 @@
 {
-  "dependencies": {
-    "express": "^5.1.0"
+  "scripts": {
+    "start": "node server.js",
+    "local": "nodemon server.js" // Optional for local dev
+  },
+  "engines": {
+    "node": "18.x" // Match Render's supported version
   }
 }
