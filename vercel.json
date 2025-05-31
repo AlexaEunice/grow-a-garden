@@ -14,11 +14,11 @@
     { "src": "/stock", "dest": "/GetStock.js" },
     { "src": "/item-info", "dest": "/GrabItemInfo.js" },
     { "src": "/weather", "dest": "/GrabWeather.js" },
-    { "src": "/server", "dest": "/server.js" },  // Only if you need it
+    { "src": "/server", "dest": "/server.js" },  
     { 
       "src": "/(.*)", 
       "status": 404,
-      "dest": "README.md"  // Fallback for invalid routes
+      "dest": "README.md"  
     }
   ]
 }
