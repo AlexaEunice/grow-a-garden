@@ -1,9 +1,9 @@
 {
   "scripts": {
     "start": "node server.js",
-    "local": "nodemon server.js" // Optional for local dev
+    "local": "nodemon server.js"
   },
   "engines": {
-    "node": "18.x" // Match Render's supported version
+    "node": "18.x"
   }
 }
