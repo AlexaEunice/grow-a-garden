@@ -1,5 +1,24 @@
 {
   "version": 2,
-  "builds": [{ "src": "api/*.js", "use": "@vercel/node" }],
-  "routes": [{ "src": "/(.*)", "dest": "api/garden.js" }]
+  "builds": [
+    {
+      "src": "*.js",
+      "use": "@vercel/node",
+      "config": { 
+        "includeFiles": ["Database.json", "config.json"] 
+      }
+    }
+  ],
+  "routes": [
+    { "src": "/restock-time", "dest": "/GetRestockTime.js" },
+    { "src": "/stock", "dest": "/GetStock.js" },
+    { "src": "/item-info", "dest": "/GrabItemInfo.js" },
+    { "src": "/weather", "dest": "/GrabWeather.js" },
+    { "src": "/server", "dest": "/server.js" },  // Only if you need it
+    { 
+      "src": "/(.*)", 
+      "status": 404,
+      "dest": "README.md"  // Fallback for invalid routes
+    }
+  ]
 }
