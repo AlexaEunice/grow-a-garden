@@ -12,5 +12,8 @@
     { "src": "/item-info", "dest": "/Funcs/GrabItemInfo.js" },
     { "src": "/weather", "dest": "/Funcs/GrabWeather.js" }
   ],
-  "includeFiles": ["Funcs/Database.json"]
+  "includeFiles": [
+    "Funcs/Database.json",
+    "config.json"
+  ]
 }
