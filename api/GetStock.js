@@ -22,20 +22,17 @@ function fetchStocks() {
       const chunks = [];
       res.on('data', (chunk) => chunks.push(chunk));
       res.on('end', () => {
-        const body = Buffer.concat(chunks).toString();
         try {
-          const parsedData = JSON.parse(body);
-          resolve(parsedData);
-        } catch (err) {
-          reject({ status: 500, message: `Invalid JSON response: ${err.message}` });
+          const body = Buffer.concat(chunks).toString();
+          const parsed = JSON.parse(body);
+          resolve(parsed);
+        } catch (e) {
+          reject({ message: 'Failed to parse response', code: 500 });
         }
       });
     });
 
-    req.on('error', (e) => {
-      reject({ status: 502, message: `Request error: ${e.message}` });
-    });
-
+    req.on('error', (e) => reject({ message: e.message, code: 502 }));
     req.end();
   });
 }
@@ -60,7 +57,7 @@ function formatLastSeenItems(items) {
 
 function formatStocks(data) {
   const stocks = data[0]?.result?.data?.json;
-  if (!stocks) throw new Error("Malformed data structure");
+  if (!stocks) throw new Error('Invalid structure');
 
   return {
     gearStock: formatStockItems(stocks.gearStock),
@@ -81,15 +78,12 @@ function formatStocks(data) {
 export default async function handler(req, res) {
   try {
     const rawData = await fetchStocks();
-    const formatted = formatStocks(rawData);
-    res.status(200).json({ success: true, ...formatted });
+    const result = formatStocks(rawData);
+    res.status(200).json({ success: true, ...result });
   } catch (err) {
-    res.status(err.status || 500).json({
+    res.status(err.code || 500).json({
       success: false,
-      error: {
-        code: err.status || 500,
-        message: err.message || 'Unexpected error'
-      }
+      error: err.message
     });
   }
 }
