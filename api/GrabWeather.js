@@ -1,4 +1,5 @@
-const https = require("https");
+// api/getweather.js
+import https from "https";
 
 function processTimestamps(obj) {
   if (typeof obj !== 'object' || obj === null) return;
@@ -20,7 +21,7 @@ function processTimestamps(obj) {
   }
 }
 
-function fetchWeather(callback) {
+function fetchWeather() {
   const options = {
     method: "GET",
     hostname: "growagarden.gg",
@@ -34,40 +35,37 @@ function fetchWeather(callback) {
     }
   };
 
-  const req = https.request(options, (res) => {
-    const chunks = [];
+  return new Promise((resolve, reject) => {
+    const req = https.request(options, (res) => {
+      const chunks = [];
 
-    res.on("data", (chunk) => chunks.push(chunk));
+      res.on("data", (chunk) => chunks.push(chunk));
 
-    res.on("end", () => {
-      const body = Buffer.concat(chunks).toString();
-      try {
-        const weatherData = JSON.parse(body);
-        processTimestamps(weatherData);
-        callback(null, { success: true, ... weatherData });
-      } catch (e) {
-        callback({ status: 500, message: "Failed to parse weather data" });
-      }
+      res.on("end", () => {
+        const body = Buffer.concat(chunks).toString();
+        try {
+          const weatherData = JSON.parse(body);
+          processTimestamps(weatherData);
+          resolve({ success: true, ...weatherData });
+        } catch (e) {
+          reject({ status: 500, message: "Failed to parse weather data" });
+        }
+      });
     });
-  });
 
-  req.on("error", (err) => {
-    callback({ status: 500, message: err.message });
-  });
-
-  req.end();
-}
-
-function register(app) {
-  app.get("/api/GetWeather", (req, res) => {
-    fetchWeather((error, result) => {
-      if (error) {
-        res.status(error.status || 500).json({ success: false, error: error.message });
-      } else {
-        res.json(result);
-      }
+    req.on("error", (err) => {
+      reject({ status: 500, message: err.message });
     });
+
+    req.end();
   });
 }
 
-module.exports = { register };
+export default async function handler(req, res) {
+  try {
+    const result = await fetchWeather();
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(error.status || 500).json({ success: false, error: error.message });
+  }
+}
