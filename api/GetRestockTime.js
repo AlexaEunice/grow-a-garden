@@ -4,7 +4,7 @@ function pad(n) {
 
 function calculateRestockTimes() {
   const now = new Date();
-  const timezone = 'America/New_York'; // or use Intl.DateTimeFormat().resolvedOptions().timeZone if preferred
+  const timezone = 'America/New_York';
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
   function formatTime(timestamp) {
@@ -91,12 +91,7 @@ function calculateRestockTimes() {
   };
 }
 
-function register(app) {
-  app.get('/api/stock/restock-time', (req, res) => {
-    const restockTimes = calculateRestockTimes();
-    res.json(restockTimes);
-  });
+export default function handler(req, res) {
+  const restockTimes = calculateRestockTimes();
+  res.status(200).json(restockTimes);
 }
-
-module.exports = { register };
-
